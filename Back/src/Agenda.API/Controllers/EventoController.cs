@@ -1,5 +1,7 @@
+using Agenda.API.Data;
 using Agenda.API.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Agenda.API.AddControllers
 {
@@ -8,42 +10,24 @@ namespace Agenda.API.AddControllers
 
     public class AgendaController : ControllerBase
     {
-        public IEnumerable<Evento> _evento = [
-            new Evento() {
-                EvenoId = 1,
-                QtdPessoas = 10,
-                Tema = "Angular 11",
-                Lote = "1° Lote",
-                Local = "São Paulo",
-                DataEvento = DateTime.Now.AddDays(2).ToString(),
-                ImagemUrl = "125"
-            },
-            new Evento() {
-                EvenoId = 2,
-                QtdPessoas = 10,
-                Tema = "Angular 11",
-                Lote = "2° Lote",
-                Local = "São Paulo",
-                DataEvento = DateTime.Now.AddDays(5).ToString(),
-                ImagemUrl = "125"
-            }
-        ];  
-        public AgendaController()
+        private readonly DataContext _context;
+        public AgendaController(DataContext context)
         {
+            _context = context;
         }
 
         [HttpGet]
         public IEnumerable<Evento> Obter()
         {
-            return _evento;
+            return _context.Eventos;
         }
         
         [HttpGet("{id}")]
-        public IEnumerable<Evento> ObterPorId(int id)
+        public Evento ObterPorId(int id)
         {
-            return _evento.Where(x => x.EvenoId == id);
+            return _context.Eventos.FirstOrDefault(
+                x => x.EventoId == id
+                );
         }
     }
-
-
 }
