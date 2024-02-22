@@ -8,10 +8,10 @@ namespace Agenda.API.AddControllers
     [ApiController]
     [Route("api/[controller]")]
 
-    public class AgendaController : ControllerBase
+    public class EventosController : ControllerBase
     {
         private readonly DataContext _context;
-        public AgendaController(DataContext context)
+        public EventosController(DataContext context)
         {
             _context = context;
         }
